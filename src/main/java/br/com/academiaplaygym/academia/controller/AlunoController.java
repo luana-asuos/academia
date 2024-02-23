@@ -21,7 +21,7 @@ import br.com.academiaplaygym.academia.util.CpfUtil;
 import jakarta.validation.Valid;
 
 @RestController
-@RequestMapping("/aluno")
+@RequestMapping("api/aluno")
 public class AlunoController {
 	
 	@Autowired
