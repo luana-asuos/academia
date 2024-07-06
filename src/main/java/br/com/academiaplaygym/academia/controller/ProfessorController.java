@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.academiaplaygym.academia.DTO.ProfessorRequestDTO;
 import br.com.academiaplaygym.academia.model.Professor;
-import br.com.academiaplaygym.academia.repository.ProfessorRepository;
 import br.com.academiaplaygym.academia.service.ProfessorService;
 import jakarta.validation.Valid;
 

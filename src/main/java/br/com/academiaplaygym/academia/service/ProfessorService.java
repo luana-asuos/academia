@@ -9,7 +9,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import br.com.academiaplaygym.academia.DTO.ProfessorRequestDTO;
-import br.com.academiaplaygym.academia.model.Aluno;
 import br.com.academiaplaygym.academia.model.Professor;
 import br.com.academiaplaygym.academia.repository.ProfessorRepository;
 
