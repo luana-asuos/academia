@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.UUID;
 
 import br.com.academiaplaygym.academia.DTO.AlunoRequestDTO;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -19,7 +20,7 @@ public class Aluno {
 	@GeneratedValue(strategy = GenerationType.UUID)
 	private UUID id;
 	
-	@OneToOne
+	@OneToOne(cascade = CascadeType.PERSIST)
 	private Endereco enderecoModel;
 	
 	@OneToMany
@@ -58,7 +59,7 @@ public class Aluno {
 		this.rg = alunoRequestDTO.rg();
 		this.cpf = alunoRequestDTO.cpf();
 		this.dataVencimento = alunoRequestDTO.dataVencimento();
-		
+		this.dataVencimento = alunoRequestDTO.dataVencimento();
 	}
 	
 
