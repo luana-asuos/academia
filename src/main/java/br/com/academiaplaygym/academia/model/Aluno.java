@@ -20,7 +20,7 @@ public class Aluno {
 	@GeneratedValue(strategy = GenerationType.UUID)
 	private UUID id;
 	
-	@OneToOne(cascade = CascadeType.PERSIST)
+	@OneToOne(cascade = CascadeType.ALL)
 	private Endereco enderecoModel;
 	
 	@OneToMany
@@ -58,7 +58,6 @@ public class Aluno {
 		this.email = alunoRequestDTO.email();
 		this.rg = alunoRequestDTO.rg();
 		this.cpf = alunoRequestDTO.cpf();
-		this.dataVencimento = alunoRequestDTO.dataVencimento();
 		this.dataVencimento = alunoRequestDTO.dataVencimento();
 	}
 	
