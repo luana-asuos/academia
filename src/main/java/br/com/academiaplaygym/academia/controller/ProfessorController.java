@@ -37,8 +37,8 @@ public class ProfessorController {
 	}
 	
 	@PutMapping
-	public ResponseEntity updateProfessor(@RequestBody @Valid ProfessorRequestDTO data) {
-		return professorService.update(data);
+	public ResponseEntity<?> updateProfessor(@RequestBody @Valid ProfessorRequestDTO data) {
+	    return professorService.update(data);
 	}
 	
 	@DeleteMapping(value = "/{id}")

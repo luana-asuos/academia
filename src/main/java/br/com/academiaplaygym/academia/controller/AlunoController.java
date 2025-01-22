@@ -32,10 +32,18 @@ public class AlunoController {
 		return alunoService.findAll();
 	}
 	
+	@GetMapping("/{id}")
+	public ResponseEntity<?> findById(@PathVariable("id") UUID id) {
+	    Aluno aluno = alunoService.findById(id);
+	    if (aluno == null) {
+	        return ResponseEntity.status(404).body("Aluno não encontrado");
+	    }
+	    return ResponseEntity.ok(aluno);
+	}
+	
 	@PostMapping
 	public ResponseEntity<?> save(@RequestBody @Valid Aluno aluno) {
         String cpf = aluno.getCpf();
-        // Verifica se o CPF está no formato correto e o formata se necessário
         cpf = CpfUtil.formatarCPF(cpf);
         if (!CpfUtil.isCPFValido(cpf)) {
             return ResponseEntity.badRequest().body("CPF inválido");
@@ -45,16 +53,15 @@ public class AlunoController {
         return ResponseEntity.ok(savedAluno);
 	}
 	
-	@PutMapping
-	public ResponseEntity<?> updateAluno(@RequestBody @Valid AlunoRequestDTO data) {
-        String cpf = data.cpf();
-        // Verifica se o CPF está no formato correto e o formata se necessário
-        cpf = CpfUtil.formatarCPF(cpf);
-        if (!CpfUtil.isCPFValido(cpf)) {
-            return ResponseEntity.badRequest().body("CPF inválido");
-        }
-        data.cpf();
-        return alunoService.update(data);
+	@PutMapping("/{id}")
+	public ResponseEntity<?> updateAluno(@PathVariable("id") UUID id, @RequestBody @Valid AlunoRequestDTO data) {
+	    String cpf = data.cpf();
+	    cpf = CpfUtil.formatarCPF(cpf);
+	    if (!CpfUtil.isCPFValido(cpf)) {
+	        return ResponseEntity.badRequest().body("CPF inválido");
+	    }
+
+	    return alunoService.update(id, data);
 	}
 	
 	@DeleteMapping(value = "/{id}")

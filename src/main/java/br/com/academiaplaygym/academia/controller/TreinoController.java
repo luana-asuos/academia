@@ -37,8 +37,8 @@ public class TreinoController {
 	}
 	
 	@PutMapping
-	public ResponseEntity updateTreino(@RequestBody @Valid TreinoRequestDTO data) {
-		return treinoService.update(data);
+	public ResponseEntity<?> updateTreino(@RequestBody @Valid TreinoRequestDTO data) {
+	    return treinoService.update(data);
 	}
 	
 	@DeleteMapping(value = "/{id}")

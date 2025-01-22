@@ -14,40 +14,43 @@ import br.com.academiaplaygym.academia.repository.EnderecoRepository;
 
 @Service
 public class EnderecoService {
-	
-	@Autowired
-	private EnderecoRepository enderecoRepository;
-	
-	public List<Endereco> findAll() {
-		return (List<Endereco>) enderecoRepository.findAll();
-	}
-	
-	public Endereco save(Endereco endereco) {
-		return (Endereco) enderecoRepository.save(endereco);
-	
-	}
-	
-	 public ResponseEntity update(EnderecoRequestDTO data) {
-		 Optional<Endereco> optionalEnderecoModel = enderecoRepository.findById(data.id());
-	     if (optionalEnderecoModel.isPresent()) {
-	    	 Endereco enderecoModel = optionalEnderecoModel.get();
-	    	 enderecoModel.setRua(data.rua());
-	    	 enderecoModel.setNumero(data.numero());
-	    	 enderecoModel.setBairro(data.bairro());
-	    	 enderecoModel.setCep(data.cep());
-	    	 enderecoModel.setCidade(data.cidade());
-	    	 enderecoModel.setEstado(data.estado());
-	    	 
-	    	 enderecoRepository.save(enderecoModel);
-	         
-	         return ResponseEntity.ok(enderecoModel);
-	         } else {
-	            return ResponseEntity.notFound().build();
-	         }
-	 }
-	 public ResponseEntity<String> deleteById(UUID id) {
-		 enderecoRepository.deleteById(id);
-		 return ResponseEntity.ok().build();
-		}
 
+    @Autowired
+    private EnderecoRepository enderecoRepository;
+
+    public List<Endereco> findAll() {
+        return enderecoRepository.findAll();
+    }
+
+    public Endereco save(Endereco endereco) {
+        return enderecoRepository.save(endereco);
+    }
+
+    public ResponseEntity<Endereco> update(EnderecoRequestDTO data) {
+        Optional<Endereco> optionalEnderecoModel = enderecoRepository.findById(data.id());
+        if (optionalEnderecoModel.isPresent()) {
+            Endereco enderecoModel = optionalEnderecoModel.get();
+            enderecoModel.setRua(data.rua());
+            enderecoModel.setNumero(data.numero());
+            enderecoModel.setBairro(data.bairro());
+            enderecoModel.setCep(data.cep());
+            enderecoModel.setCidade(data.cidade());
+            enderecoModel.setEstado(data.estado());
+
+            enderecoRepository.save(enderecoModel);
+
+            return ResponseEntity.ok(enderecoModel);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    public ResponseEntity<String> deleteById(UUID id) {
+        if (enderecoRepository.existsById(id)) {
+            enderecoRepository.deleteById(id);
+            return ResponseEntity.ok("Endereço deletado com sucesso!");
+        } else {
+            return ResponseEntity.status(404).body("Endereço não encontrado.");
+        }
+    }
 }
