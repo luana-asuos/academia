@@ -37,8 +37,8 @@ public class PlanoController {
 	}
 	
 	@PutMapping
-	public ResponseEntity updatePlanos(@RequestBody @Valid PlanosRequestDTO data) {
-		return planosService.update(data);
+	public ResponseEntity<?> updatePlanos(@RequestBody @Valid PlanosRequestDTO data) {
+	    return planosService.update(data);
 	}
 	
 	@DeleteMapping(value = "/{id}")

@@ -24,42 +24,39 @@ import jakarta.validation.Valid;
 @RequestMapping("/endereco")
 public class EnderecoController {
 
+    @Autowired
+    private EnderecoService enderecoService;
 
-	@Autowired
-	private EnderecoService enderecoService;
+    @GetMapping
+    public List<Endereco> findAll() {
+        return enderecoService.findAll();
+    }
 
-	@GetMapping
-	public List<Endereco> findAll() {
-		return enderecoService.findAll();
-	}
+    @PostMapping
+    public ResponseEntity<?> save(@RequestBody @Valid Endereco endereco) {
+        String cep = endereco.getCep();
+        cep = CepUtil.formatarCEP(cep);
+        if (!CepUtil.isCEPValido(cep)) {
+            return ResponseEntity.badRequest().body("CEP inválido");
+        }
+        endereco.setCep(cep);
+        Endereco savedEndereco = enderecoService.save(endereco);
+        return ResponseEntity.ok(savedEndereco);
+    }
 
-	@PostMapping
-	public ResponseEntity<?> save(@RequestBody @Valid Endereco endereco) {
-		String cep = endereco.getCep();
-		// Verifica se o CEP está no formato correto e o formata se necessário
-		cep = CepUtil.formatarCEP(cep);
-		if (!CepUtil.isCEPValido(cep)) {
-			return ResponseEntity.badRequest().body("CEP inválido");
-		}
-		endereco.setCep(cep);
-		Endereco savedEndereco = enderecoService.save(endereco);
-		return ResponseEntity.ok(savedEndereco);
-	}
+    @PutMapping
+    public ResponseEntity<?> updateEndereco(@RequestBody @Valid EnderecoRequestDTO data) {
+        String cep = data.cep();
+        cep = CepUtil.formatarCEP(cep);
+        if (!CepUtil.isCEPValido(cep)) {
+            return ResponseEntity.badRequest().body("CEP inválido");
+        }
+        return enderecoService.update(data);
+    }
 
-	@PutMapping
-	public ResponseEntity<?> updateEndereco(@RequestBody @Valid EnderecoRequestDTO data) {
-		String cep = data.cep();
-		// Verifica se o CEP está no formato correto e o formata se necessário
-		cep = CepUtil.formatarCEP(cep);
-		if (!CepUtil.isCEPValido(cep)) {
-			return ResponseEntity.badRequest().body("CEP inválido");
-		}
-		data.cep();
-		return enderecoService.update(data);
-	}
-
-	@DeleteMapping(value = "/{id}")
-	public ResponseEntity<String> deleteById(@PathVariable("id") UUID id) {
-		return enderecoService.deleteById(id);
-	}
+    @DeleteMapping(value = "/{id}")
+    public ResponseEntity<String> deleteById(@PathVariable("id") UUID id) {
+        return enderecoService.deleteById(id);
+    }
 }
+
