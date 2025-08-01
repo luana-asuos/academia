@@ -59,6 +59,7 @@ public class AlunoController {
 	    cpf = CpfUtil.formatarCPF(cpf);
 	    if (!CpfUtil.isCPFValido(cpf)) {
 	    	System.out.println(cpf + "CPF inválido");
+
 	    }
 
 	    return alunoService.update(id, data);
