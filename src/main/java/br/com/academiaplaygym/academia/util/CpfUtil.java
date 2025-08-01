@@ -2,15 +2,20 @@ package br.com.academiaplaygym.academia.util;
 
 public class CpfUtil {
 
-	public static String formatarCPF(String cpf) {
+    public static String formatarCPF(String cpf) {
         // Remove todos os caracteres não numéricos
-        cpf = cpf.replaceAll("[^0-9]", "");
+        String apenasDigitos = cpf.replaceAll("[^0-9]", "");
 
-        // Verifica se o CPF tem 11 dígitos
-        if (cpf.length() != 11) return "CPF inválido";
+        // Se não tiver exatamente 11 dígitos, devolve apenas os dígitos (sem mensagem de erro)
+        if (apenasDigitos.length() != 11) {
+            return apenasDigitos;
+        }
 
-        // Formata o CPF para o padrão "XXX.XXX.XXX-XX"
-        return cpf.substring(0, 3) + "." + cpf.substring(3, 6) + "." + cpf.substring(6, 9) + "-" + cpf.substring(9);
+        // Se tiver 11 dígitos, formata no padrão XXX.XXX.XXX-XX
+        return apenasDigitos.substring(0, 3) + "."
+             + apenasDigitos.substring(3, 6) + "."
+             + apenasDigitos.substring(6, 9) + "-"
+             + apenasDigitos.substring(9);
     }
 
     public static boolean isCPFValido(String cpf) {
@@ -20,7 +25,7 @@ public class CpfUtil {
         // Verifica se o CPF tem 11 dígitos
         if (cpf.length() != 11) return false;
 
-        // Após o tratamento, verifica se o CPF é válido
+        // Calcula o primeiro dígito verificador
         int soma = 0;
         for (int i = 0; i < 9; i++) {
             soma += (cpf.charAt(i) - '0') * (10 - i);
@@ -28,6 +33,7 @@ public class CpfUtil {
         int digito1 = 11 - (soma % 11);
         if (digito1 > 9) digito1 = 0;
 
+        // Calcula o segundo dígito verificador
         soma = 0;
         for (int i = 0; i < 10; i++) {
             soma += (cpf.charAt(i) - '0') * (11 - i);
@@ -35,7 +41,7 @@ public class CpfUtil {
         int digito2 = 11 - (soma % 11);
         if (digito2 > 9) digito2 = 0;
 
-        // Verifica se os dígitos calculados batem com os dígitos informados
+        // Compara dígitos calculados com os dígitos informados
         return (cpf.charAt(9) - '0' == digito1 && cpf.charAt(10) - '0' == digito2);
     }
 }

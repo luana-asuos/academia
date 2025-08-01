@@ -42,11 +42,11 @@ public class AlunoController {
 	}
 	
 	@PostMapping
-	public ResponseEntity<?> save(@RequestBody @Valid Aluno aluno) {
+	public ResponseEntity<?> save(@RequestBody Aluno aluno) {
         String cpf = aluno.getCpf();
         cpf = CpfUtil.formatarCPF(cpf);
         if (!CpfUtil.isCPFValido(cpf)) {
-            return ResponseEntity.badRequest().body("CPF inválido");
+             System.out.println(cpf + "CPF inválido");
         }
         aluno.setCpf(cpf);
         Aluno savedAluno = alunoService.save(aluno);
@@ -58,7 +58,7 @@ public class AlunoController {
 	    String cpf = data.cpf();
 	    cpf = CpfUtil.formatarCPF(cpf);
 	    if (!CpfUtil.isCPFValido(cpf)) {
-	        return ResponseEntity.badRequest().body("CPF inválido");
+	    	System.out.println(cpf + "CPF inválido");
 	    }
 
 	    return alunoService.update(id, data);
